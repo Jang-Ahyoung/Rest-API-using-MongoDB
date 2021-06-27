@@ -1,0 +1,6 @@
+/.env
+/document.md
+/index.js
+/node_modules
+/routes
+/yarn.lock
