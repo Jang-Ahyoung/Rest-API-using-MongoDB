@@ -4,7 +4,7 @@
   "description": "create rest api with MongoDB",
   "main": "index.js",
   "scripts": {
-    "start" : "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [
     "rest-api"
@@ -12,6 +12,7 @@
   "author": "Jang-Ahyoung",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
