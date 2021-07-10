@@ -69,17 +69,29 @@ router.get("/:id", async (req, res) => {
     }
 })
 
+// get user's timeline posts
+router.get("/profile/:username", async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+        const posts = await Post.find({ userId: user._id });
+        res.status(200).json(posts);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+module.exports = router;
+
 // get timeline posts (all following user's)
-router.get("/timeline/all", async (req, res) => {
+router.get("/timeline/:userId", async (req, res) => {
     try { // 루프를 사용할 경우 await 대신 Promise.all 사용
-        const currentUser = await User.findById(req.body.userId);
+        const currentUser = await User.findById(req.params.userId);
         const userPosts = await Post.find({ userId: currentUser._id }); // 사용자가 작성한 게시물
         const friendPosts = await Promise.all(  // 팔로잉된 친구 게시물
             currentUser.followings.map((friendId) => {
                 return Post.find({ userId: friendId }); // 각각의 게시물을 friendPosts 배열 안으로 반환시켜줄것! return 필요
             })
         )
-        res.json(userPosts.concat(...friendPosts)); // 모든 friendPosts 포스트를 가져와 userPosts와 결합
+        res.status(200).json(userPosts.concat(...friendPosts)); // 모든 friendPosts 포스트를 가져와 userPosts와 결합
     } catch (err) {
         res.status(500).json(err);
     }
